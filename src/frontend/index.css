@@ -1,0 +1,260 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 1rem;
+
+    /* Shikhar Classes – Pastel Blue Academic Theme */
+    /* Primary Blue: #0077b6 → oklch(0.52 0.15 237) */
+    /* Dark Blue: #023e8a → oklch(0.32 0.12 248) */
+    /* Pastel BG: #e6f4ff → oklch(0.96 0.03 237) */
+    /* Sky Accent: #caf0f8 → oklch(0.93 0.05 219) */
+    /* White: #ffffff → oklch(1 0 0) */
+    /* Text dark: #0a1628 → oklch(0.14 0.04 248) */
+    /* Text mid: #334155 → oklch(0.38 0.04 251) */
+    /* Green WA: #25D366 → oklch(0.73 0.19 143) */
+
+    --background: 0.96 0.03 237;
+    --foreground: 0.14 0.04 248;
+    --card: 1 0 0;
+    --card-foreground: 0.14 0.04 248;
+    --popover: 1 0 0;
+    --popover-foreground: 0.14 0.04 248;
+    --primary: 0.52 0.15 237;
+    --primary-foreground: 1 0 0;
+    --secondary: 0.93 0.05 219;
+    --secondary-foreground: 0.32 0.12 248;
+    --muted: 0.94 0.025 237;
+    --muted-foreground: 0.38 0.04 251;
+    --accent: 0.93 0.05 219;
+    --accent-foreground: 0.32 0.12 248;
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+    --border: 0.88 0.04 219;
+    --input: 0.88 0.04 219;
+    --ring: 0.52 0.15 237;
+    --chart-1: 0.52 0.15 237;
+    --chart-2: 0.73 0.19 143;
+    --chart-3: 0.32 0.12 248;
+    --chart-4: 0.93 0.05 219;
+    --chart-5: 0.82 0.1 200;
+    --sidebar: 1 0 0;
+    --sidebar-foreground: 0.14 0.04 248;
+    --sidebar-primary: 0.52 0.15 237;
+    --sidebar-primary-foreground: 1 0 0;
+    --sidebar-accent: 0.93 0.05 219;
+    --sidebar-accent-foreground: 0.32 0.12 248;
+    --sidebar-border: 0.88 0.04 219;
+    --sidebar-ring: 0.52 0.15 237;
+  }
+
+  .dark {
+    --background: 0.14 0.04 248;
+    --foreground: 0.96 0.03 237;
+    --card: 0.2 0.06 248;
+    --card-foreground: 0.96 0.03 237;
+    --popover: 0.2 0.06 248;
+    --popover-foreground: 0.96 0.03 237;
+    --primary: 0.65 0.15 220;
+    --primary-foreground: 0.14 0.04 248;
+    --secondary: 0.26 0.07 248;
+    --secondary-foreground: 0.96 0.03 237;
+    --muted: 0.26 0.07 248;
+    --muted-foreground: 0.62 0.06 237;
+    --accent: 0.32 0.1 237;
+    --accent-foreground: 0.96 0.03 237;
+    --destructive: 0.704 0.191 22.216;
+    --destructive-foreground: 0.2 0.06 248;
+    --border: 1 0 0 / 10%;
+    --input: 1 0 0 / 15%;
+    --ring: 0.62 0.12 220;
+    --sidebar: 0.2 0.06 248;
+    --sidebar-foreground: 0.96 0.03 237;
+    --sidebar-primary: 0.65 0.15 220;
+    --sidebar-primary-foreground: 0.14 0.04 248;
+    --sidebar-accent: 0.26 0.07 248;
+    --sidebar-accent-foreground: 0.96 0.03 237;
+    --sidebar-border: 1 0 0 / 10%;
+    --sidebar-ring: 0.62 0.12 220;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Plus Jakarta Sans', 'Outfit', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+  }
+}
+
+/* ============================================================
+   Shikhar Classes — Custom Component Styles
+   ============================================================ */
+
+/* Fade-in animation for scroll reveals */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered children */
+.fade-in-section.delay-1 { transition-delay: 0.1s; }
+.fade-in-section.delay-2 { transition-delay: 0.2s; }
+.fade-in-section.delay-3 { transition-delay: 0.3s; }
+.fade-in-section.delay-4 { transition-delay: 0.4s; }
+.fade-in-section.delay-5 { transition-delay: 0.5s; }
+
+/* Hero animated blobs */
+@keyframes float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, -25px) scale(1.05); }
+  66% { transform: translate(-15px, 15px) scale(0.97); }
+}
+@keyframes float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40% { transform: translate(-25px, 20px) scale(1.08); }
+  70% { transform: translate(18px, -18px) scale(0.94); }
+}
+@keyframes float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(15px, 22px) scale(1.04); }
+  75% { transform: translate(-20px, -10px) scale(0.96); }
+}
+
+.blob-1 { animation: float-1 8s ease-in-out infinite; }
+.blob-2 { animation: float-2 10s ease-in-out infinite; }
+.blob-3 { animation: float-3 12s ease-in-out infinite; }
+
+/* WhatsApp pulse animation */
+@keyframes wa-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
+}
+.wa-pulse {
+  animation: wa-pulse 2.5s ease-in-out infinite;
+}
+
+/* Facility card hover */
+.facility-card {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.facility-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(0, 119, 182, 0.18), 0 8px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Stat card hover */
+.stat-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 119, 182, 0.14);
+}
+
+/* Nav link underline animation */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #0077b6;
+  transition: width 0.25s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Form input focus styling */
+.shikhar-input {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.shikhar-input:focus {
+  border-color: #0077b6 !important;
+  box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.12) !important;
+  outline: none;
+}
+
+/* Hamburger menu */
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #0077b6;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+.hamburger-open .hamburger-line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.hamburger-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hamburger-open .hamburger-line:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Hero section entrance animation */
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-animate {
+  animation: hero-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.hero-animate-d1 { animation-delay: 0.1s; }
+.hero-animate-d2 { animation-delay: 0.25s; }
+.hero-animate-d3 { animation-delay: 0.4s; }
+.hero-animate-d4 { animation-delay: 0.55s; }
+.hero-animate-d5 { animation-delay: 0.7s; }
+
+/* Mobile menu slide */
+@keyframes menu-slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.mobile-menu-open {
+  animation: menu-slide-down 0.25s ease forwards;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #e6f4ff; }
+::-webkit-scrollbar-thumb { background: #90c9e8; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #0077b6; }
+
+/* Selection color */
+::selection { background: rgba(0, 119, 182, 0.15); color: #023e8a; }
