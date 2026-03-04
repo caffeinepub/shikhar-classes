@@ -7,7 +7,8 @@ import { useActor } from "./hooks/useActor";
 // ============================================================
 interface FormData {
   parentName: string;
-  studentName: string;
+  preferredLocation: string;
+  otherLocation: string;
   schoolName: string;
   standard: string;
   board: string;
@@ -16,7 +17,8 @@ interface FormData {
 
 interface FormErrors {
   parentName?: string;
-  studentName?: string;
+  preferredLocation?: string;
+  otherLocation?: string;
   schoolName?: string;
   standard?: string;
   board?: string;
@@ -68,13 +70,6 @@ const facilities = [
     image: "/assets/generated/facility-security.dim_600x400.jpg",
     description:
       "Safe premises with complete supervision to ensure every student's safety, discipline, and well-being at all times.",
-  },
-  {
-    id: 7,
-    title: "Flexible Batch Timings",
-    image: "/assets/generated/facility-batch-timings.dim_600x400.jpg",
-    description:
-      "Convenient morning and evening batches designed according to school schedules for maximum learning flexibility.",
   },
   {
     id: 8,
@@ -1369,7 +1364,8 @@ function EnquirySection() {
   const { actor } = useActor();
   const [formData, setFormData] = useState<FormData>({
     parentName: "",
-    studentName: "",
+    preferredLocation: "",
+    otherLocation: "",
     schoolName: "",
     standard: "",
     board: "",
@@ -1384,8 +1380,13 @@ function EnquirySection() {
     const newErrors: FormErrors = {};
     if (!formData.parentName.trim())
       newErrors.parentName = "Parent name is required";
-    if (!formData.studentName.trim())
-      newErrors.studentName = "Student name is required";
+    if (!formData.preferredLocation)
+      newErrors.preferredLocation = "Please select a preferred location";
+    if (
+      formData.preferredLocation === "Other" &&
+      !formData.otherLocation.trim()
+    )
+      newErrors.otherLocation = "Please specify your location";
     if (!formData.schoolName.trim())
       newErrors.schoolName = "School name is required";
     if (!formData.standard) newErrors.standard = "Please select a grade";
@@ -1440,7 +1441,7 @@ function EnquirySection() {
       if (actor) {
         await actor.submitEnquiry(
           formData.parentName.trim(),
-          formData.studentName.trim(),
+          formData.preferredLocation,
           BigInt(formData.standard),
           boardEnum,
           formData.contactNumber.trim(),
@@ -1449,13 +1450,18 @@ function EnquirySection() {
 
       const boardDisplay =
         formData.board === "StateBoard" ? "State Board" : formData.board;
-      const msg = `New Enquiry from Shikhar Classes Website%0A%0AParent Name: ${encodeURIComponent(formData.parentName)}%0AStudent Name: ${encodeURIComponent(formData.studentName)}%0ASchool Name: ${encodeURIComponent(formData.schoolName)}%0AStandard: Grade ${formData.standard}%0ABoard: ${boardDisplay}%0AContact: ${formData.contactNumber}`;
+      const locationDisplay =
+        formData.preferredLocation === "Other"
+          ? formData.otherLocation.trim()
+          : formData.preferredLocation;
+      const msg = `New Enquiry from Shikhar Classes Website%0A%0AParent Name: ${encodeURIComponent(formData.parentName)}%0APreferred Location: ${encodeURIComponent(locationDisplay)}%0ASchool Name: ${encodeURIComponent(formData.schoolName)}%0AStandard: Grade ${formData.standard}%0ABoard: ${boardDisplay}%0AContact: ${formData.contactNumber}`;
       window.open(`https://wa.me/917715813926?text=${msg}`, "_blank");
 
       setIsSuccess(true);
       setFormData({
         parentName: "",
-        studentName: "",
+        preferredLocation: "",
+        otherLocation: "",
         schoolName: "",
         standard: "",
         board: "",
@@ -1649,34 +1655,77 @@ function EnquirySection() {
                     )}
                   </div>
 
-                  {/* Student Name */}
+                  {/* Preferred Location */}
                   <div>
-                    <label htmlFor="studentName" style={labelStyle}>
-                      Student Name{" "}
+                    <label htmlFor="preferredLocation" style={labelStyle}>
+                      Preferred Location{" "}
                       <span aria-hidden="true" style={{ color: "#e53e3e" }}>
                         *
                       </span>
                     </label>
-                    <input
-                      id="studentName"
-                      name="studentName"
-                      type="text"
-                      value={formData.studentName}
+                    <select
+                      id="preferredLocation"
+                      name="preferredLocation"
+                      value={formData.preferredLocation}
                       onChange={handleChange}
-                      placeholder="Enter student's full name"
-                      style={inputStyle(!!errors.studentName)}
+                      style={{
+                        ...inputStyle(!!errors.preferredLocation),
+                        cursor: "pointer",
+                      }}
                       className="shikhar-input"
-                      autoComplete="off"
                       aria-required="true"
-                      aria-invalid={!!errors.studentName}
+                      aria-invalid={!!errors.preferredLocation}
                       aria-describedby={
-                        errors.studentName ? "studentName-error" : undefined
+                        errors.preferredLocation
+                          ? "preferredLocation-error"
+                          : undefined
                       }
-                    />
-                    {errors.studentName && (
-                      <p id="studentName-error" style={errorStyle} role="alert">
-                        {errors.studentName}
+                      data-ocid="enquiry.preferred_location.select"
+                    >
+                      <option value="">Select Location</option>
+                      <option value="Bhandup (W)">Bhandup (W)</option>
+                      <option value="Mulund (W)">Mulund (W)</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    {errors.preferredLocation && (
+                      <p
+                        id="preferredLocation-error"
+                        style={errorStyle}
+                        role="alert"
+                      >
+                        {errors.preferredLocation}
                       </p>
+                    )}
+                    {formData.preferredLocation === "Other" && (
+                      <div style={{ marginTop: "0.5rem" }}>
+                        <input
+                          type="text"
+                          id="otherLocation"
+                          name="otherLocation"
+                          placeholder="Please type your area / location"
+                          value={formData.otherLocation}
+                          onChange={handleChange}
+                          style={inputStyle(!!errors.otherLocation)}
+                          className="shikhar-input"
+                          aria-required="true"
+                          aria-invalid={!!errors.otherLocation}
+                          aria-describedby={
+                            errors.otherLocation
+                              ? "otherLocation-error"
+                              : undefined
+                          }
+                          data-ocid="enquiry.other_location.input"
+                        />
+                        {errors.otherLocation && (
+                          <p
+                            id="otherLocation-error"
+                            style={errorStyle}
+                            role="alert"
+                          >
+                            {errors.otherLocation}
+                          </p>
+                        )}
+                      </div>
                     )}
                   </div>
 
